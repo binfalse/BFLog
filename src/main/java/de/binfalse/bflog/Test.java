@@ -14,7 +14,8 @@ public class Test {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		LOGGER.error("message", new IOException ("exceptionmsg"));
 		LOGGER.error("test");
