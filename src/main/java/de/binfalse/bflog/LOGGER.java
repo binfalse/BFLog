@@ -1,5 +1,37 @@
 /**
+ * Copyright (c) 2007-2014 Martin Scharm -- <software@binfalse.de>
  * 
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted (subject to the limitations in the
+ * disclaimer below) provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * 
+ * * Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the
+ *   distribution.
+ * 
+ * * Neither the name of <Owner Organization> nor the names of its
+ *   contributors may be used to endorse or promote products derived
+ *   from this software without specific prior written permission.
+ * 
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+ * GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+ * HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+ * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package de.binfalse.bflog;
 
@@ -9,6 +41,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 
 /**
@@ -99,6 +132,9 @@ public class LOGGER
 
 	/** Should we log the stack trace? */
 	private static boolean logStackTrace = false;
+	
+	/** The log call backs. */
+	private static Vector<LogCallback> callBacks = new Vector<LogCallback> ();
 	
 	/**
 	 * Define the file to write the log to. Does not start logging to that file, call <code>LOGGER.setLogToFile (true)</code> to start writing to log file. Same as <code>LOGGER.setLogFile (new File (fileName))</code>
@@ -343,7 +379,7 @@ public class LOGGER
 	 *
 	 * @param line the line to log
 	 */
-	private static void publish (String line)
+	private static void publish (int level, String line)
 	{
 		if (logToStdOut)
 			System.out.println (line);
@@ -359,6 +395,8 @@ public class LOGGER
 				e.printStackTrace();
 			}
 		}
+		for (LogCallback lcb : callBacks)
+			lcb.logged (level, line);
 	}
 	
 	
@@ -370,7 +408,7 @@ public class LOGGER
 	 */
 	private static void log (int level, String msg)
 	{
-		publish (preMsg (level, Thread.currentThread().getStackTrace()[3]) + msg);
+		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3]) + msg);
 	}
 	
 	/**
@@ -382,14 +420,14 @@ public class LOGGER
 	 */
 	private static void log (int level, String msg, Exception e)
 	{
-		publish (preMsg (level, Thread.currentThread().getStackTrace()[3]) + msg + " (throwing "+e.getClass().getName()+": " + e.getMessage() + ")");
+		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3]) + msg + " (throwing "+e.getClass().getName()+": " + e.getMessage() + ")");
 		
 		if (logStackTrace)
 		{
-			publish ("\t" + e.getClass().getName()+": " + e.getMessage());
+			publish (level, "\t" + e.getClass().getName()+": " + e.getMessage());
 			StackTraceElement [] ste = e.getStackTrace();
 			for (StackTraceElement el : ste)
-				publish ("\t\tat " + el.getClassName() + "." + el.getMethodName() + "("+el.getFileName()+":"+el.getLineNumber()+")");
+				publish (level, "\t\tat " + el.getClassName() + "." + el.getMethodName() + "("+el.getFileName()+":"+el.getLineNumber()+")");
 		}
 	}
 	
@@ -483,6 +521,16 @@ public class LOGGER
 	{
 		if ((logLevel & WARN) > 0)
 			log (WARN, msg);
+	}
+	
+	public static void addCallback (LogCallback callBack)
+	{
+		callBacks.add (callBack);
+	}
+	
+	public static void rmCallBack (LogCallback callBack)
+	{
+		callBacks.remove (callBack);
 	}
 	
 	/**
