@@ -113,7 +113,7 @@ public class LOGGER
 		"dd.MM HH:mm:ss");
 	
 	/** The log level, defaults to warning and error messages. */
-	protected static int logLevel = WARN & ERROR;
+	protected static int logLevel = WARN | ERROR;
 	
 	/** The file where we will log our messages. */
 	private static File logFileFile;

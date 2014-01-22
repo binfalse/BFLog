@@ -3,16 +3,27 @@
     <modelVersion>4.0.0</modelVersion>
     <name>BFLog</name>
     <description>Simple but efficient logging facility</description>
-    <url>http://binfalse.de</url>
+    <url>https://github.com/binfalse/BFLog</url>
     <groupId>de.binfalse</groupId>
     <artifactId>BFLog</artifactId>
     <packaging>jar</packaging>
     <version>1.3</version>
+    <licenses>
+        <license>
+            <name>The Clear BSD License</name>
+            <url>http://directory.fsf.org/wiki/License:ClearBSD</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/binfalse/BFLog</url>
+        <connection>https://github.com/binfalse/BFLog.git</connection>
+    </scm>
     <developers>
         <developer>
             <name>Martin Scharm</name>
             <id>martin</id>
-            <email>martin@binfalse.de</email>
+            <email>maven@binfalse.de</email>
             <roles>
                 <role>Java Developer</role>
             </roles>
