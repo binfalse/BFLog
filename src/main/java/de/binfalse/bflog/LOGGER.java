@@ -409,10 +409,10 @@ public class LOGGER
 	 * @param level the level
 	 * @param msg the msg
 	 */
-	private static void log (int level, String... msg)
+	private static void log (int level, Object... msg)
 	{
 		StringBuilder sb = preMsg (level, Thread.currentThread().getStackTrace()[3]);
-		for (String m : msg)
+		for (Object m : msg)
 			sb.append (m);
 		publish (level, sb.toString ());
 	}
@@ -424,10 +424,10 @@ public class LOGGER
 	 * @param e the thrown exception
 	 * @param msg the msg
 	 */
-	private static void log (int level, Exception e, String... msg)
+	private static void log (int level, Exception e, Object... msg)
 	{
 		StringBuilder sb = preMsg (level, Thread.currentThread().getStackTrace()[3]);
-		for (String m : msg)
+		for (Object m : msg)
 			sb.append (m);
 		
 		sb.append (" (throwing ").append (e.getClass().getName())
@@ -510,7 +510,7 @@ public class LOGGER
 	 * @param msg the msg
 	 * @param e the thrown exception
 	 */
-	public static void error (Exception e, String... msg)
+	public static void error (Exception e, Object... msg)
 	{
 		if ((logLevel & ERROR) > 0)
 			log (ERROR, e, msg);
@@ -522,7 +522,7 @@ public class LOGGER
 	 * @param msg the msg
 	 * @param e the thrown exception
 	 */
-	public static void info  (Exception e, String... msg)
+	public static void info  (Exception e, Object... msg)
 	{
 		if ((logLevel & INFO) > 0)
 			log (INFO, e, msg);
@@ -534,7 +534,7 @@ public class LOGGER
 	 * @param msg the msg
 	 * @param e the thrown exception
 	 */
-	public static void debug  (Exception e, String... msg)
+	public static void debug  (Exception e, Object... msg)
 	{
 		if ((logLevel & DEBUG) > 0)
 			log (DEBUG, e, msg);
@@ -546,7 +546,7 @@ public class LOGGER
 	 * @param msg the msg
 	 * @param e the thrown exception
 	 */
-	public static void warn  (Exception e, String... msg)
+	public static void warn  (Exception e, Object... msg)
 	{
 		if ((logLevel & WARN) > 0)
 			log (WARN, e, msg);
@@ -557,7 +557,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 */
-	public static void error (String... msg)
+	public static void error (Object... msg)
 	{
 		if ((logLevel & ERROR) > 0)
 		{
@@ -570,7 +570,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 */
-	public static void info (String... msg)
+	public static void info (Object... msg)
 	{
 		if ((logLevel & INFO) > 0)
 			log (INFO, msg);
@@ -581,7 +581,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 */
-	public static void debug (String... msg)
+	public static void debug (Object... msg)
 	{
 		if ((logLevel & DEBUG) > 0)
 			log (DEBUG, msg);
@@ -592,7 +592,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 */
-	public static void warn (String... msg)
+	public static void warn (Object... msg)
 	{
 		if ((logLevel & WARN) > 0)
 			log (WARN, msg);
