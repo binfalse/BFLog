@@ -112,6 +112,9 @@ public class LOGGER
 	public static final SimpleDateFormat	dateformat	= new SimpleDateFormat (
 		"dd.MM HH:mm:ss");
 	
+	/** The os independent new line char */
+	public static final String NEWLINE = System.getProperty("line.separator");
+	
 	/** The log level, defaults to warning and error messages. */
 	protected static int logLevel = WARN | ERROR;
 	
@@ -406,74 +409,168 @@ public class LOGGER
 	 * @param level the level
 	 * @param msg the msg
 	 */
-	private static void log (int level, String msg)
+	private static void log (int level, String... msg)
 	{
-		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3]).append (msg).toString ());
+		StringBuilder sb = preMsg (level, Thread.currentThread().getStackTrace()[3]);
+		for (String m : msg)
+			sb.append (m);
+		publish (level, sb.toString ());
 	}
 	
 	/**
 	 * Log a message.
 	 *
 	 * @param level the level
-	 * @param msg the msg
 	 * @param e the thrown exception
+	 * @param msg the msg
 	 */
-	private static void log (int level, String msg, Exception e)
+	private static void log (int level, Exception e, String... msg)
 	{
-		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3])
-			.append (msg).append (" (throwing ").append (e.getClass().getName())
-			.append (": ").append (e.getMessage()).append (")").toString ());
+		StringBuilder sb = preMsg (level, Thread.currentThread().getStackTrace()[3]);
+		for (String m : msg)
+			sb.append (m);
+		
+		sb.append (" (throwing ").append (e.getClass().getName())
+			.append (": ").append (e.getMessage()).append (")");
 		
 		if (logStackTrace)
 		{
-			publish (level, "\t" + e.getClass().getName()+": " + e.getMessage());
+			sb.append (NEWLINE).append ("\t").append (e.getClass()
+				.getName()).append (": ").append (e.getMessage());
 			StackTraceElement [] ste = e.getStackTrace();
 			for (StackTraceElement el : ste)
-				publish (level, "\t\tat " + el.getClassName() + "." + el.getMethodName() + "("+el.getFileName()+":"+el.getLineNumber()+")");
+				sb.append (NEWLINE).append ("\t\tat ")
+				.append (el.getClassName()).append (".").append (el.getMethodName())
+				.append ("(").append (el.getFileName()).append (":")
+				.append (el.getLineNumber()).append (")");
+		}
+		
+		publish (level, sb.toString ());
+	}
+	
+	/**
+	 * Log an error.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 * @deprecated use {@link error(Exception e, String... msg)} instead
+	 */
+	@Deprecated
+	public static void error (String msg, Exception e)
+	{
+		if ((logLevel & ERROR) > 0)
+			log (ERROR, e, msg);
+	}
+	
+	/**
+	 * Log an info message.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 * @deprecated use {@link info(Exception e, String... msg)} instead
+	 */
+	@Deprecated
+	public static void info  (String msg, Exception e)
+	{
+		if ((logLevel & INFO) > 0)
+			log (INFO, e, msg);
+	}
+	
+	/**
+	 * Log a debug message.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 * @deprecated use {@link debug(Exception e, String... msg)} instead
+	 */
+	@Deprecated
+	public static void debug  (String msg, Exception e)
+	{
+		if ((logLevel & DEBUG) > 0)
+			log (DEBUG, e, msg);
+	}
+	
+	/**
+	 * Log a warning message.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 * @deprecated use {@link warn(Exception e, String... msg)} instead
+	 */
+	@Deprecated
+	public static void warn  (String msg, Exception e)
+	{
+		if ((logLevel & WARN) > 0)
+			log (WARN, e, msg);
+	}
+	
+	/**
+	 * Log an error.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 */
+	public static void error (Exception e, String... msg)
+	{
+		if ((logLevel & ERROR) > 0)
+			log (ERROR, e, msg);
+	}
+	
+	/**
+	 * Log an info message.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 */
+	public static void info  (Exception e, String... msg)
+	{
+		if ((logLevel & INFO) > 0)
+			log (INFO, e, msg);
+	}
+	
+	/**
+	 * Log a debug message.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 */
+	public static void debug  (Exception e, String... msg)
+	{
+		if ((logLevel & DEBUG) > 0)
+			log (DEBUG, e, msg);
+	}
+	
+	/**
+	 * Log a warning message.
+	 *
+	 * @param msg the msg
+	 * @param e the thrown exception
+	 */
+	public static void warn  (Exception e, String... msg)
+	{
+		if ((logLevel & WARN) > 0)
+			log (WARN, e, msg);
+	}
+	
+	/**
+	 * Log an error.
+	 *
+	 * @param msg the msg
+	 */
+	public static void error (String... msg)
+	{
+		if ((logLevel & ERROR) > 0)
+		{
+			log (ERROR, msg);
 		}
 	}
 	
 	/**
-	 * Log an error.
-	 *
-	 * @param msg the msg
-	 * @param e the thrown exception
-	 */
-	public static void error (String msg, Exception e)
-	{
-		if ((logLevel & ERROR) > 0)
-			log (ERROR, msg, e);
-	}
-	
-	/**
-	 * Log an error.
-	 *
-	 * @param msg the msg
-	 */
-	public static void error (String msg)
-	{
-		if ((logLevel & ERROR) > 0)
-			log (ERROR, msg);
-	}
-	
-	/**
-	 * Log an info message.
-	 *
-	 * @param msg the msg
-	 * @param e the thrown exception
-	 */
-	public static void info  (String msg, Exception e)
-	{
-		if ((logLevel & INFO) > 0)
-			log (INFO, msg, e);
-	}
-	
-	/**
 	 * Log an info message.
 	 *
 	 * @param msg the msg
 	 */
-	public static void info (String msg)
+	public static void info (String... msg)
 	{
 		if ((logLevel & INFO) > 0)
 			log (INFO, msg);
@@ -483,20 +580,8 @@ public class LOGGER
 	 * Log a debug message.
 	 *
 	 * @param msg the msg
-	 * @param e the thrown exception
 	 */
-	public static void debug  (String msg, Exception e)
-	{
-		if ((logLevel & DEBUG) > 0)
-			log (DEBUG, msg, e);
-	}
-	
-	/**
-	 * Log a debug message.
-	 *
-	 * @param msg the msg
-	 */
-	public static void debug (String msg)
+	public static void debug (String... msg)
 	{
 		if ((logLevel & DEBUG) > 0)
 			log (DEBUG, msg);
@@ -506,20 +591,8 @@ public class LOGGER
 	 * Log a warning message.
 	 *
 	 * @param msg the msg
-	 * @param e the thrown exception
 	 */
-	public static void warn  (String msg, Exception e)
-	{
-		if ((logLevel & WARN) > 0)
-			log (WARN, msg, e);
-	}
-	
-	/**
-	 * Log a warning message.
-	 *
-	 * @param msg the msg
-	 */
-	public static void warn (String msg)
+	public static void warn (String... msg)
 	{
 		if ((logLevel & WARN) > 0)
 			log (WARN, msg);

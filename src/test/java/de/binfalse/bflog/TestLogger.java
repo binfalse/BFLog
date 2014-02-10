@@ -129,6 +129,7 @@ public class TestLogger extends LOGGER
 		LOGGER.setMinLevel (LOGGER.DEBUG);
 		// log a message
 		LOGGER.warn ("test message");
+		LOGGER.warn ("test message", "another message", "message3");
 		// close the logger to finish the file stream
 		LOGGER.closeLogger ();
 		
@@ -218,11 +219,13 @@ public class TestLogger extends LOGGER
 		LOGGER.setLogToStdOut (true);
 		
 		sio.startIoCapture ();
-		LOGGER.warn ("test message");
+		LOGGER.warn ("test message", "another message", "message3");
 		sio.stopIoCapture ();
 
-		assertFalse ("logger should log to sys out!", sio.getSysOut ().toString ().isEmpty ());
+		String sysOut = sio.getSysOut ().toString ();
+		assertFalse ("logger should log to sys out!", sysOut.isEmpty ());
 		assertTrue ("logger shouldn't log to sys err", sio.getSysErr ().toString ().isEmpty ());
+		assertTrue ("logger logged something strange", sysOut.endsWith ("test messageanother messagemessage3\n"));
 		
 		sio.reset ();
 
@@ -242,7 +245,7 @@ public class TestLogger extends LOGGER
 		LOGGER.setLogToStdOut (false);
 		
 		sio.startIoCapture ();
-		LOGGER.warn ("test message");
+		LOGGER.warn ("test message", "another message", "message3");
 		sio.stopIoCapture ();
 
 		assertTrue ("logger shouldn't log to sys out", sio.getSysOut ().toString ().isEmpty ());
