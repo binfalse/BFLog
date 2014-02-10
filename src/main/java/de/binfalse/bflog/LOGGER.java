@@ -408,7 +408,7 @@ public class LOGGER
 	 */
 	private static void log (int level, String msg)
 	{
-		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3]) + msg);
+		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3]).append (msg).toString ());
 	}
 	
 	/**
@@ -420,7 +420,9 @@ public class LOGGER
 	 */
 	private static void log (int level, String msg, Exception e)
 	{
-		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3]) + msg + " (throwing "+e.getClass().getName()+": " + e.getMessage() + ")");
+		publish (level, preMsg (level, Thread.currentThread().getStackTrace()[3])
+			.append (msg).append (" (throwing ").append (e.getClass().getName())
+			.append (": ").append (e.getMessage()).append (")").toString ());
 		
 		if (logStackTrace)
 		{
@@ -540,9 +542,11 @@ public class LOGGER
 	 * @param ste the stack trace element calling the LOGGER
 	 * @return the preamble
 	 */
-	private static String preMsg (int level, StackTraceElement ste)
+	private static StringBuilder preMsg (int level, StackTraceElement ste)
 	{
-		return dateformat.format (new Date ()) + " "+ levelString (level) + " " + ste.getClassName () + "@" + ste.getLineNumber() + ": ";
+		return new StringBuilder (dateformat.format (new Date ())).append (" ")
+			.append (levelString (level)).append (" ").append (ste.getClassName ())
+			.append ("@").append (ste.getLineNumber()).append (": ");
 	}
 	
 	/**

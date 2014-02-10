@@ -7,7 +7,7 @@
     <groupId>de.binfalse</groupId>
     <artifactId>BFLog</artifactId>
     <packaging>jar</packaging>
-    <version>1.3</version>
+    <version>1.3.1</version>
     <licenses>
         <license>
             <name>The Clear BSD License</name>
@@ -67,4 +67,48 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <!-- deployment profile -->
+        <profile>
+            <id>release</id>
+            <!-- build plugin configuration for the deploy -->
+            <!-- It is not necessary to include the sources and -->
+            <!-- javadocs every time the project compiles -->
+            <build>
+                <plugins>
+                    <!-- attach sources -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+
+                        <configuration>
+                            <attach>true</attach>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- attach javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
