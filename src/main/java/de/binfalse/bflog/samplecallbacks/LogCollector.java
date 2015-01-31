@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007-2014 Martin Scharm -- <software@binfalse.de>
+ * Copyright (c) 2007-2015 Martin Scharm -- <software@binfalse.de>
  * 
  * All rights reserved.
  * 
