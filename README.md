@@ -3,6 +3,21 @@ BFLog
 
 Simple but efficient logging facility.
 
+Include it
+------
+
+BFLog is available through [Maven's Central Repository](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22de.binfalse%22%20AND%20a%3A%22BFLog%22).
+If you are using Maven you just need to add the following dependency:
+
+	<dependency>
+		<groupId>de.binfalse</groupId>
+		<artifactId>BFLog</artifactId>
+		<version>1.3.4</version>
+	</dependency>
+
+That's it. Maven will care about the rest. You can start using it!
+
+
 Use it
 ------
 
