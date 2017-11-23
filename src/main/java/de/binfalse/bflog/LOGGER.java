@@ -83,9 +83,10 @@ import java.util.Vector;
  * 		<td>log an error message</td>
  * 	</tr>
  * 	</tbody>
+ *  <caption>Options to log a message</caption>
  * </table>
  * 
- * Thereby, the exception parameter is optional, just in case an exception was thrown.
+ * Here, the [EXCEPTION] parameter is optional, just in case an exception was thrown.
  * 
  * To close the LOGGER just call <code>LOGGER.closeLogger ()</code> in order to clean up and close the file stream.
  * 
@@ -453,7 +454,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 * @param e the thrown exception
-	 * @deprecated use {@link error(Exception e, String... msg)} instead
+	 * @deprecated use {@link #error(Exception, Object...)} instead
 	 */
 	@Deprecated
 	public static void error (String msg, Exception e)
@@ -467,7 +468,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 * @param e the thrown exception
-	 * @deprecated use {@link info(Exception e, String... msg)} instead
+	 * @deprecated use {@link #info(Exception, Object...)} instead
 	 */
 	@Deprecated
 	public static void info  (String msg, Exception e)
@@ -481,7 +482,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 * @param e the thrown exception
-	 * @deprecated use {@link debug(Exception e, String... msg)} instead
+	 * @deprecated use {@link #debug(Exception, Object...)} instead
 	 */
 	@Deprecated
 	public static void debug  (String msg, Exception e)
@@ -495,7 +496,7 @@ public class LOGGER
 	 *
 	 * @param msg the msg
 	 * @param e the thrown exception
-	 * @deprecated use {@link warn(Exception e, String... msg)} instead
+	 * @deprecated use {@link #warn(Exception, Object...)} instead
 	 */
 	@Deprecated
 	public static void warn  (String msg, Exception e)

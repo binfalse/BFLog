@@ -53,10 +53,10 @@ import de.binfalse.bflog.LogCallback;
  * When all logging has finished you can get the accumulated messages using:
  * 
  * <pre>
- * Vector<String> debugMessages = lc.getDebugs ();
- * Vector<String> infoMessages = lc.getInfos ();
- * Vector<String> warnings = lc.getWarnings ();
- * Vector<String> errors = lc.getErrors ();
+ * Vector&lt;String&gt; debugMessages = lc.getDebugs ();
+ * Vector&lt;String&gt; infoMessages = lc.getInfos ();
+ * Vector&lt;String&gt; warnings = lc.getWarnings ();
+ * Vector&lt;String&gt; errors = lc.getErrors ();
  * </pre>
  * 
  * @author martin scharm
