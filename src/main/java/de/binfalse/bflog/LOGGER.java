@@ -381,6 +381,7 @@ public class LOGGER
 	/**
 	 * Publish a message.
 	 *
+	 * @param level the level
 	 * @param line the line to log
 	 */
 	private static void publish (int level, String line)

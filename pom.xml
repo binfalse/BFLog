@@ -6,7 +6,7 @@
     <groupId>de.binfalse</groupId>
     <artifactId>BFLog</artifactId>
     <packaging>jar</packaging>
-    <version>1.3.6</version>
+    <version>1.3.7</version>
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
@@ -22,7 +22,7 @@
         <url>https://github.com/binfalse/BFLog</url>
         <connection>https://github.com/binfalse/BFLog.git</connection>
         <developerConnection>scm:git:ssh://github.com:binfalse/BFLog.git</developerConnection>
-  </scm>
+    </scm>
     <developers>
         <developer>
             <name>Martin Scharm</name>
